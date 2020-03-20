@@ -7,5 +7,3 @@ export const locale  = {
     de: deCh,
     en: enGb
 };
-
-

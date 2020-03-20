@@ -6,6 +6,10 @@ const since = (from, lang) => {
 	if(validLocale.indexOf(lang) < 0 ) {
 		lang = 'en';
 	}
+	if(typeof from == 'date') {
+		from = from.getTime();
+	}
+	
 	const now = Date.now();
 	const seconds = now - from;
 	const fromDate = new Date(from);
