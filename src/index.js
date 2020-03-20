@@ -1,7 +1,7 @@
 import { validLocale, locale } from './locale/index'
 const since = (from, lang) => {
-	if(typeof from == 'date') {
-		from = from.getTime();
+	if(typeof from != 'number') {
+		from = from.getTime() || 0;
 	}
 	if(from > Date.now()) {
 		return '';
@@ -12,9 +12,9 @@ const since = (from, lang) => {
 	
 
 	const now = Date.now();
-	const seconds = now - from;
-	const fromDate = new Date(from);
+	const seconds = (now/1000) - (from/1000);
 	const nowDate = new Date(now);
+	const fromDate = new Date(from);
 	
 	if(seconds < 60)
 		return locale[lang].justNow;
@@ -47,8 +47,8 @@ const since = (from, lang) => {
 
 const getText = (seconds, lang, format) => {
 	const today = new Date(Date.now());
-	const monthDiff = today.getMonth() - new Date(Date.now()-seconds).getMonth();
-	const yearDiff = today.getFullYear() - new Date(Date.now()-seconds).getFullYear();
+	const monthDiff = today.getMonth() - new Date(Date.now()-seconds*1000).getMonth();
+	const yearDiff = today.getFullYear() - new Date(Date.now()-seconds*1000).getFullYear();
 	if (format === 'm')
 		return locale[lang].minutesAgo.replace('$', getNumber((seconds / 60).toFixed(0), lang));
 	if (format === 'h')
