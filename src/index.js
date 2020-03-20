@@ -1,15 +1,16 @@
 import { validLocale, locale } from './locale/index'
 const since = (from, lang) => {
+	if(typeof from == 'date') {
+		from = from.getTime();
+	}
 	if(from > Date.now()) {
 		return '';
 	}
 	if(validLocale.indexOf(lang) < 0 ) {
 		lang = 'en';
 	}
-	if(typeof from == 'date') {
-		from = from.getTime();
-	}
 	
+
 	const now = Date.now();
 	const seconds = now - from;
 	const fromDate = new Date(from);
@@ -37,7 +38,7 @@ const since = (from, lang) => {
 		return locale[lang].lastMonth;
 	if(fromDate.getFullYear() == nowDate.getFullYear() && nowDate.getMonth() !== fromDate.getMonth())
 		return getText(seconds, lang, 'M');
-	if(nowDate.getFullYear() - from.getFullYear() == 1)
+	if(nowDate.getFullYear() - fromDate.getFullYear() == 1)
 		return locale[lang].lastYear;
 	if(fromDate.getFullYear() !== nowDate.getFullYear())
 		return getText(seconds, lang, 'y');
