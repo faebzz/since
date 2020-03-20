@@ -6,7 +6,7 @@ var today = new Date(Date.now());
 describe('since.js testing routine', function() {
   describe('English Testing routine', function() {
     it('should return just now in english', function() {
-      assert.equal(since(Date.now(), 'en'), 'just now');
+      assert.equal(since(today, 'en'), 'just now');
     });
     it('should return one minute ago in english', function() {
       assert.equal(since((Date.now() - 65), 'en'), 'one minute ago');
