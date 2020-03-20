@@ -10,7 +10,7 @@ const enGb = {
     nine: 'nine',
     justNow: 'just now',
     minuteAgo: 'one minute ago',
-    minutesAgo: '$ minute ago',
+    minutesAgo: '$ minutes ago',
     hourAgo: 'an hour ago',
     hoursAgo: '$ hours ago',
     yesterday: 'yesterday',
@@ -19,7 +19,7 @@ const enGb = {
     weeksAgo: '$ weeks ago',
     lastMonth: 'last month',
     monthsAgo: '$ months ago',
-    lastYear: 'one year ago',
+    lastYear: 'last year',
     yearsAgo: '$ years ago'
 }
 
