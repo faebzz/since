@@ -8,6 +8,9 @@ describe('since.js testing routine', function() {
     it('should return just now in english', function() {
       assert.equal(since(today, 'en'), 'just now');
     });
+    it('should return today in english', function() {
+      assert.equal(since(today, 'en', { skipToFullDay: true }), 'today');
+    });
     it('should return one minute ago in english', function() {
       assert.equal(since((Date.now() - 65000), 'en'), 'one minute ago');
     });
@@ -48,6 +51,9 @@ describe('since.js testing routine', function() {
   describe('German Testing routine', function() {
     it('should return just now in german', function() {
       assert.equal(since(Date.now(), 'de'), 'gerade eben');
+    });
+    it('should return today in german', function() {
+      assert.equal(since(today, 'de', { skipToFullDay: true }), 'heute');
     });
     it('should return one minute ago in german', function() {
       assert.equal(since((Date.now() - 65000), 'de'), 'vor einer Minute');

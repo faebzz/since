@@ -5,7 +5,7 @@ const since = (from, lang, options) => {
 	if(typeof options == 'undefined') {
 		options=defaultOptions;
 	} else {
-		options = { ...defaultOptions, options };
+		// options = { ...defaultOptions, options };
 	}
 	if(typeof from != 'number') {
 		from = from.getTime() || 0;
@@ -17,11 +17,9 @@ const since = (from, lang, options) => {
 		lang = 'en';
 	}
 
-
-	const nowDay = Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+	
 	const now = Date.now();
-	const nowDate = new Date(nowDay);
-	const fromDay = Date.UTC(new Date(from).getFullYear(), new Date(from).getMonth(), new Date(from).getDate());
+	const nowDate = new Date(now);
 	const fromDate = new Date(from);
 	const fromDay = Date.UTC(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
 	const nowDay = Date.UTC(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate());
@@ -32,6 +30,7 @@ const since = (from, lang, options) => {
 	const isSameYear =  nowDayDate.getFullYear() == fromDayDate.getFullYear();
 	const isSameMonth =  nowDayDate.getMonth() == fromDayDate.getMonth() && isSameYear;
 	const isSameDay =  nowDayDate.getDate() == fromDayDate.getDate() && isSameMonth && isSameYear;
+	const seconds = (now/1000) - (from/1000);
 
 	if(seconds < 60 && isSameDay && !options.skipToFullDay)
 		return locale[lang].justNow;
