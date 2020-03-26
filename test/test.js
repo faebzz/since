@@ -21,7 +21,7 @@ describe('since.js testing routine', function() {
       assert.equal(since((Date.now() - 11000000), 'en'), 'three hours ago');
     });
     it('should return yesterday', function() {
-      assert.equal(since((Date.now() - (26*3600*1000)), 'en'), 'yesterday');
+      assert.equal(since((Date.now() - 24*60*60*1000), 'en'), 'yesterday');
     });
     it('should return four days ago', function() {
       assert.equal(since((Date.now() - (4*24*3700*1000)), 'en'), 'four days ago');

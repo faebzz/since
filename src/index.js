@@ -16,44 +16,52 @@ const since = (from, lang, options) => {
 	if(validLocale.indexOf(lang) < 0 ) {
 		lang = 'en';
 	}
-	
+
 
 	const nowDay = Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 	const now = Date.now();
 	const nowDate = new Date(nowDay);
 	const fromDay = Date.UTC(new Date(from).getFullYear(), new Date(from).getMonth(), new Date(from).getDate());
 	const fromDate = new Date(from);
-	const seconds = (now/1000) - (from/1000);
-	
-	if(seconds < 60 && !options.skipToFullDay)
+	const fromDay = Date.UTC(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+	const nowDay = Date.UTC(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate());
+	const fromDayDate = new Date(fromDay);
+	const nowDayDate = new Date(nowDay);
+	const secondsDay = (nowDay/1000) - (fromDay/1000);
+	const diffDays = Math.ceil(secondsDay / (3600 * 24));
+	const isSameYear =  nowDayDate.getFullYear() == fromDayDate.getFullYear();
+	const isSameMonth =  nowDayDate.getMonth() == fromDayDate.getMonth() && isSameYear;
+	const isSameDay =  nowDayDate.getDate() == fromDayDate.getDate() && isSameMonth && isSameYear;
+
+	if(seconds < 60 && isSameDay && !options.skipToFullDay)
 		return locale[lang].justNow;
-	if(seconds > 60 && seconds < 120 && !options.skipToFullDay)
+	if(seconds > 60 && seconds < 120 && isSameDay && !options.skipToFullDay)
 		return locale[lang].minuteAgo;
-	if(seconds > 120 && seconds < 3600 && !options.skipToFullDay)
+	if(seconds > 120 && seconds < 3600 && isSameDay && !options.skipToFullDay)
 		return getText(seconds, lang, 'm');
-	if(seconds > 3600 && seconds < 7200 && !options.skipToFullDay)
+	if(seconds > 3600 && seconds < 7200 && isSameDay && !options.skipToFullDay)
 		return locale[lang].hourAgo;
-	if(seconds > 7200 && seconds < 86400 && !options.skipToFullDay)
+	if(seconds > 7200 && seconds < 86400 && isSameDay && !options.skipToFullDay)
 		return getText(seconds, lang, 'h');
-	if(seconds > 7200 && seconds < 86400 && !options.skipToFullDay)
+	if(isSameDay && options.skipToFullDay)
 		return locale[lang].today;
-	if(seconds > 86400 && seconds < (2 * 86400))
+	if(from >= (nowDay - (1000*60*60*24)) && !isSameDay)
 		return  locale[lang].yesterday;
 	if(seconds > (2 * 86400) && seconds < (7 * 86400))
-		return  getText(seconds, lang, 'd');
+		return  getText(secondsDay, lang, 'd');
 	if(seconds > (7 * 86400) && seconds < (14 * 86400))
 		return locale[lang].lastWeek;
-	if(seconds > (14 * 86400) && seconds < (28 * 86400))
-		return getText(seconds, lang, 'w');
-	if(fromDate.getFullYear() == nowDate.getFullYear() && (nowDate.getMonth() - 1) === fromDate.getMonth())
+	if(secondsDay > (14 * 86400) && secondsDay < (28 * 86400))
+		return getText(secondsDay, lang, 'w');
+	if(isSameYear && (nowDayDate.getMonth() - 1) === fromDayDate.getMonth())
 		return locale[lang].lastMonth;
-	if(fromDate.getFullYear() == nowDate.getFullYear() && nowDate.getMonth() !== fromDate.getMonth())
+	if(isSameYear && nowDayDate.getMonth() !== fromDayDate.getMonth())
 		return getText(seconds, lang, 'M');
-	if(nowDate.getFullYear() - fromDate.getFullYear() == 1)
+	if(nowDayDate.getFullYear() - fromDayDate.getFullYear() == 1)
 		return locale[lang].lastYear;
-	if(fromDate.getFullYear() !== nowDate.getFullYear())
+	if(fromDayDate.getFullYear() !== nowDayDate.getFullYear())
 		return getText(seconds, lang, 'y');
-	return from;
+	return new Date(from);
 }
 
 const getText = (seconds, lang, format) => {
