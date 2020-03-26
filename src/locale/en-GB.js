@@ -8,6 +8,7 @@ const enGb = {
     seven: 'seven',
     eight: 'eight',
     nine: 'nine',
+    today: 'today',
     justNow: 'just now',
     minuteAgo: 'one minute ago',
     minutesAgo: '$ minutes ago',

@@ -8,6 +8,7 @@ const deCh = {
     seven: 'sieben',
     eight: 'acht',
     nine: 'neun',
+    today: 'heute',
     justNow: 'gerade eben',
     minuteAgo: 'vor einer Minute',
     minutesAgo: 'vor $ Minuten',

@@ -1,5 +1,12 @@
 import { validLocale, locale } from './locale/index'
-const since = (from, lang) => {
+import defaultOptions from './options';
+
+const since = (from, lang, options) => {
+	if(typeof options == 'undefined') {
+		options=defaultOptions;
+	} else {
+		options = { ...defaultOptions, options };
+	}
 	if(typeof from != 'number') {
 		from = from.getTime() || 0;
 	}
@@ -11,21 +18,25 @@ const since = (from, lang) => {
 	}
 	
 
+	const nowDay = Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
 	const now = Date.now();
-	const seconds = (now/1000) - (from/1000);
-	const nowDate = new Date(now);
+	const nowDate = new Date(nowDay);
+	const fromDay = Date.UTC(new Date(from).getFullYear(), new Date(from).getMonth(), new Date(from).getDate());
 	const fromDate = new Date(from);
+	const seconds = (now/1000) - (from/1000);
 	
-	if(seconds < 60)
+	if(seconds < 60 && !options.skipToFullDay)
 		return locale[lang].justNow;
-	if(seconds > 60 && seconds < 120)
+	if(seconds > 60 && seconds < 120 && !options.skipToFullDay)
 		return locale[lang].minuteAgo;
-	if(seconds > 120 && seconds < 3600)
+	if(seconds > 120 && seconds < 3600 && !options.skipToFullDay)
 		return getText(seconds, lang, 'm');
-	if(seconds > 3600 && seconds < 7200)
+	if(seconds > 3600 && seconds < 7200 && !options.skipToFullDay)
 		return locale[lang].hourAgo;
-	if(seconds > 7200 && seconds < 86400)
+	if(seconds > 7200 && seconds < 86400 && !options.skipToFullDay)
 		return getText(seconds, lang, 'h');
+	if(seconds > 7200 && seconds < 86400 && !options.skipToFullDay)
+		return locale[lang].today;
 	if(seconds > 86400 && seconds < (2 * 86400))
 		return  locale[lang].yesterday;
 	if(seconds > (2 * 86400) && seconds < (7 * 86400))
